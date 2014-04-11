@@ -1,0 +1,348 @@
+<!doctype html>
+<html>
+
+<!--jquery style stuff-->
+<script src="jquery-1.7.2.min.js"></script>
+
+<link rel="stylesheet" href="jquery.mobile-1.3.1.min.css">
+<script src="jquery.mobile-1.3.1.min.js"></script>
+    
+<!--epub reading stuff    -->
+<script src="jszip.js"></script>
+<script src="jszip-load.js"></script>
+<script src="jszip-deflate.js"></script>
+<script src="jszip-inflate.js"></script>
+<script src="readMyEpubFiles.js"></script>
+
+  <head>
+    <!-- PhoneGap meta-->
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/responsive.css" />      
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ASK Mobile eReader</title>
+    
+      <style>
+      html, body {
+        margin:0px;
+        padding:0px;
+      }
+          
+      body {
+        color:#333;
+        height:100%;
+        background-color:whiteSmoke;
+        line-height:1.7em;
+        font-size:20px;
+        font-family:'calibri','arial','palatino linotype', 'georgia', 'serif';
+        text-align:justify; !important;
+      }
+          
+      img {
+        /* forcefully center images, may cause glitches if
+           books have any images that are laid out side by side */
+        display:block;
+        margin-left:auto;
+        margin-right:auto;
+      }
+          
+      pre {
+        /* give a tighter line height for code */
+        line-height:1.2em;
+      }
+          
+      h1 {
+        margin:0px;
+      }
+          
+      .large {
+        font-size:1.3em;
+		margin: 0 0 25px 2px;
+		display: block;
+      }
+
+      .muted {
+        color:#777;
+      }
+          
+      .container {
+        max-width:100%;
+        min-height:100%;
+        margin:30px auto 0px auto;
+      }
+          
+      .page {
+        padding:20px;
+        margin:0px 10px 20px 10px;
+        border:1px solid #ccc;
+        box-shadow:0px 0px 7px #ccc;              
+            
+      }
+	  .container #form-page { max-width: 500px; margin:0px auto 20px auto; }  
+      .upload {
+        width:90%;
+		height:75%;
+        padding:30px 5% 50px 5%;
+        border:2px solid #ccc;
+        margin:0px auto 0px auto;
+      }
+          
+    .settings {
+        margin:10px;
+        padding:0px;
+      }
+          
+    </style>
+	<script type="text/javascript">
+		$(document).mouseup(function (e) {
+			var container = $(".menuarea");
+			var box = $(".settings");
+
+			if (!container.is(e.target) // if the target of the click isn't the container...
+				&& container.has(e.target).length === 0) // ... nor a descendant of the container
+			{
+				box.hide();
+			}
+		});
+	</script>
+	</head>
+  <body type="hidden" id="con"class="white">
+     <div class="loader"></div> 
+      <div>
+    <div class="menuarea" id="menuarea" data-theme="a" data-role="header" data-position="fixed">
+        
+        <input type="button" value="Reset" data-icon="back" class="ui-btn-left" onclick="reload();"/>
+        
+        <input type="button" id="setBut" value="Settings"   onclick="settings();" data-icon="gear" class="ui-btn-right"/>
+
+        <h3>ASK Mobile eReader</h3>
+        
+   <div id="settings" class="settings" style="display: none;"  >     
+
+        <div data-role="fieldcontain1">
+            <label for="selectmode">
+                Reading Mode:
+            </label>
+            <select id="selectmode" name="" onchange="readingMode();">
+                
+                <option selected="dayMode">
+                    Day Mode
+                </option>
+                
+                <option>
+                    Night Mode
+                </option>
+                
+            </select>
+        </div>
+
+        <div data-role="fieldcontain2">
+            <label for="selectmenu">
+                Font Size:
+            </label>
+            <select id="selectmenu" name="" onchange="fontSize();">
+                
+                <option value="8">
+                    8 px
+                </option>
+                <option value="9">
+                    9 px
+                </option>
+                <option value="10">
+                    10 px
+                </option>
+                <option value="11">
+                    11 px
+                </option>
+                <option value="12" selected>
+                    12 px
+                </option>
+                <option value="14">
+                    14 px
+                </option>
+                <option value="16">
+                    16 px
+                </option>
+                <option value="18">
+                    18 px
+                </option>
+                <option value="20">
+                    20 px
+                </option>
+                <option value="22">
+                    22 px
+                </option>
+                <option value="24">
+                    24 px
+                </option>
+                <option value="26">
+                    26 px
+                </option>
+                <option value="28">
+                    28 px
+                </option>
+                <option value="36">
+                    36 px
+                </option>
+                <option value="48">
+                    48 px
+                </option>
+                <option value="72">
+                    72 px
+                </option>
+            </select>
+        </div>
+
+       <style type="text/css">
+			
+			.highlight { background : #ff0; }
+
+		</style>
+		<script type="text/javascript" src="highlight_files/jquery-1.js"></script>
+		<script type="text/javascript">
+		
+			$(function() {
+				var self = this;
+				self.input = $("#search").select().focus();
+				
+			    //handles searching the document
+				self.performSearch = function() {
+
+					//create a search string
+					var phrase = self.input.val().replace(/^\s+|\s+$/g, "");					
+					phrase = phrase.replace(/\s+/g, "|");
+					
+					//make sure there are a couple letters
+					if (phrase.length < 3) { return; }			
+					
+					//append the rest of the expression
+					phrase = ["\\b(", phrase, ")"].join("");
+					
+					//search for any matches
+					var count = 0;
+					$("h1, h3, p").each(function(i, v) {
+					
+						//replace any matches
+						var block = $(v);
+						block.html(
+							block.text().replace(
+								new RegExp(phrase, "gi"), 
+								function(match) {
+									count++;
+									return ["<span class='highlight'>", match, "</span>"].join("");
+								}));
+						
+					});
+					
+					//update the count
+					$(".result-count").text(count + " results on this page!");
+					
+					//clear this search attempt
+					//should be gone anyways...
+					self.search = null;
+				
+				};
+			
+				self.search;
+				self.input.keyup(function(e) {
+					if (self.search) { clearTimeout(self.search); }
+					
+					//start a timer to perform the search. On browsers like
+					//Chrome, Javascript works fine -- other less performant
+					//browsers like IE6 have a hard time doing this
+					self.search = setTimeout(self.performSearch, 300);	
+				});
+			});
+		
+		</script>
+	
+		<div class="searchbar">
+			<div class="searchbar-inner">
+				Search <input id="search" type="text">
+				<span class="result-count"></span>
+			</div>
+		</div>
+    </div>        
+</div>
+</div>
+  
+<script>
+                        
+function reload(){
+location.reload()
+}
+    
+function settings(){
+$("#settings").slideToggle("fast");
+}         
+
+function fontSize(){
+var s=document.getElementById("selectmenu").value;
+var m=24;
+if(s <12){ m=18; }
+if(s >11 && s <19){ m=24; }
+else if(s >18 && s<26) { m = 29; }
+else if(s >25 && s<30) { m = 32; }
+else if(s >35 && s<40) { m = 40; }
+else if(s >47 && s<50) { m = 50; }
+else if(s >70) { m = 72; }
+document.getElementById("container").style.fontSize=s+"px";
+    document.getElementById("file").style.fontSize=s+"px";
+	$(".page p").css("line-height", m+"px"); 
+}
+
+function readingMode(){
+    var m=document.getElementById("selectmode").value;
+    if (m=="Day Mode"){
+    day();
+    }
+    else if (m=="Night Mode"){
+        night();
+    }
+}
+    
+function day(){
+document.getElementById("con").className = 'white';
+}
+    
+function night(){
+document.getElementById("con").className = 'black';
+}
+
+fontSize();
+</script>
+ 
+<!-- this is the menu area -->
+    <div>
+
+        <!--and this is the main content-->
+        <div class="container" id="container">
+            <div class="page" id="form-page">
+            <!-- <h1>Epub Viewer</h1> -->
+          
+                <div class="upload center">
+                    <span class="large">Select an epub:</span>
+                    <input type="file" id="file" />       <!-- class="custom-file-input" -->           
+                    <p>Please wait while the file is loading...</p>
+					<!--
+					<div class="choose_file">
+						<span>Choose File</span>
+						<input name="Select File" type="file" />
+					</div>
+					-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--PhoneGap scrips-->
+<script type="text/javascript" src="phonegap.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+    app.initialize();
+</script>
+
+      </body>
+</html>

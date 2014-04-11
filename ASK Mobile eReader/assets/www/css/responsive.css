@@ -1,0 +1,135 @@
+@charset "utf-8";
+/* CSS Document */
+.ui-mobile .ui-page { background: url(../img/bg.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;}
+.ui-mobile .ui-header { background: #5b91a3 url(../img/header-bg.jpg) repeat-x 0 0; }
+.ui-select div, .searchbar .ui-input-text, .ui-header>.ui-btn { background: #104658; }
+.searchbar div input { color : #ffffff; }
+.ui-select, .searchbar-inner { font-size: 13px !important; font-weight: bold !important; line-height:22px !important; margin-top: 4px !important; }
+.white .page { background: #fafafa; color: #000000; }
+.black  .ui-page,
+.black .ui-mobile .ui-header, 
+.black .ui-bar-a, 
+.black .container, 
+.black .ui-input-text, 
+.black .page { background: #000000; color: #ffffff; }
+.black .ui-select div, 
+.black .searchbar .ui-input-text, 
+.black .ui-header>.ui-btn { 
+background-image: -webkit-gradient(linear,left top,left bottom,from(#444),to(#2d2d2d)); 
+background-image: -webkit-linear-gradient(#444,#2d2d2d); 
+background-image: -moz-linear-gradient(#444,#2d2d2d); 
+background-image: -ms-linear-gradient(#444,#2d2d2d); 
+background-image: -o-linear-gradient(#444,#2d2d2d); 
+background-image: linear-gradient(#444,#2d2d2d);}
+.black  .ui-page, .black .ui-mobile .ui-header, .black .ui-bar-a { background-image: none; }
+input[type="file"] { background: #104658; }
+p.standar { font-weight: normal !important;}
+.page p { line-height: 24px; }
+.page img { max-width: 100% !important; }
+.upload p { display: none; }
+.loader { position: absolute; z-index: 99999; background: #000000 url(../img/loader.gif) no-repeat 50% 50%; opacity: 0.9; width: 100%; height:100%; top: 0; bottom: 0; left: 0; right: 0; display: none;}
+
+
+/*
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Choose a file';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+*/
+/*
+.choose_file{
+    position:relative;
+    display:inline-block;    
+	border-radius:8px;
+    border:#ebebeb solid 1px;
+    width:250px; 
+    padding: 4px 6px 4px 8px;
+    font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+    color: #7f7f7f;
+    margin-top: 2px;
+	background:#ffffff;
+}
+.choose_file input[type="file"]{
+    -webkit-appearance:none; 
+    position:absolute;
+    top:0; left:0;
+    opacity:0; 
+} */ 
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width:320px)  { /* or (max-device-width:320px) and (orientation: portrait) */
+.ui-header .ui-title { font-size: 13px; min-height: 47px; margin: 10px 0 0 -16px; }
+.upload p { font-size: 13px; }
+.page { }
+.container #form-page { margin:0px 10px 20px 10px !important; }
+.ui-mobile .ui-page { height: 420px; }
+}
+@media only screen and (min-width:321px) and (max-width:480px) { /* or (min-device-width:321px) and (max-device-width:480px) and (orientation: landscape) */
+.container { margin-top: 20px !important; }
+.page { }
+.container #form-page { margin:0px 10px 20px 10px !important; }
+}
+@media only screen and (min-width:481px) and (max-width:600px) { /* or (min-device-width:481px) and (max-device-width:600px)  */
+.container { margin-top: 20px !important; }
+.page { }
+}  
+@media only screen and (min-width:481px)  and (max-width:568px) {
+.container { margin-top: 20px !important; }
+.page { }
+}
+@media only screen and (min-width:601px)  and (max-width:800px) { /* or (min-device-width:481px)  and (max-device-width:768px) */
+
+}
+
+@media only screen and (min-width:601px)  and (max-width:768px) {
+.page { }
+}
+@media only screen and (min-width:801px) and (max-width:1024px) { /* or (min-device-width:769px) and (max-device-width:1024px) */
+.page { }
+}
+@media only screen and (min-width:1025px) and (max-width:1200px) { /* or (min-device-width:769px) and (max-device-width:1024px) */
+
+}
+@media only screen and (min-width:1079px) {
+
+}
+@media only screen and (min-width:1201px) {
+
+}
+@media only screen and (min-width:1280px) {
+
+}
+@media only screen and (min-width:1920px) {
+
+}
